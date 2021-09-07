@@ -1,3 +1,4 @@
+// https://www.notion.so/Desafio-02-Upload-de-imagens-4cf1c3b1c1ad4a66961b6e48558cc3b8#5eaa098b5a7e42a68c5295931f579336
 import { Button, Box } from '@chakra-ui/react';
 import { useMemo } from 'react';
 import { useInfiniteQuery } from 'react-query';
@@ -53,7 +54,7 @@ export default function Home(): JSX.Element {
     return <Loading />;
   }
 
-  if (isLoading && isError) {
+  if (!isLoading && isError) {
     return <Error />;
   }
 
@@ -63,7 +64,15 @@ export default function Home(): JSX.Element {
 
       <Box maxW={1120} px={20} mx="auto" my={20}>
         <CardList cards={formattedData} />
-        {/* TODO RENDER LOAD MORE BUTTON IF DATA HAS NEXT PAGE */}
+        {hasNextPage && (
+          <Button
+            onClick={() => fetchNextPage()}
+            disabled={isFetchingNextPage}
+            mt="6"
+          >
+            {isFetchingNextPage ? 'Carregando...' : 'Carregar mais'}
+          </Button>
+        )}
       </Box>
     </>
   );
